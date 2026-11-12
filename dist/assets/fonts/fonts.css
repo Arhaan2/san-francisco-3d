@@ -1,4 +1,12 @@
 @font-face {
+  font-family: 'STIX Two Text';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(./STIXTwoText-Regular.ttf) format('truetype');
+}
+
+@font-face {
   font-family: 'Barlow';
   font-style: normal;
   font-weight: 400;
@@ -18,11 +26,4 @@
   font-weight: 600;
   font-display: swap;
   src: url(./7cHqv4kjgoGqM7E30-8c4A.ttf) format('truetype');
-}
-@font-face {
-  font-family: 'Barlow Condensed';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url(./HTxwL3I-JCGChYJ8VI-L6OO_au7B46r2_3E.ttf) format('truetype');
 }

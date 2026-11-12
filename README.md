@@ -4,7 +4,7 @@ A geographic reconstruction of San Francisco, built in Blender and presented as 
 
 **Public site:** https://arhaan2.github.io/san-francisco-3d/
 
-The gallery shows six renders from the full Blender scene. The interactive model is a lighter edition designed for browser exploration; it omits some distant geometry and fine street detail. The full Blender scene and source generators are available in [Releases](https://github.com/Arhaan2/san-francisco-3d/releases).
+The gallery shows seven renders from the full Blender scene, including a sunset waterfront view. Switch the opening image between sunset, daylight and blue hour, or open any gallery image at full resolution. The interactive model is a lighter edition designed for browser exploration; it omits some distant geometry and fine street detail. The full Blender scene and source generators are available in [Releases](https://github.com/Arhaan2/san-francisco-3d/releases).
 
 ## Run locally
 
