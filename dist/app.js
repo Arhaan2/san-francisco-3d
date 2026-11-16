@@ -37,7 +37,7 @@ function loadCity(){
   const button=$('#load-model');button.disabled=true;button.textContent='Loading the city…';
   $('#model-status').textContent='Downloading the 23 MB browser model.';$('#model-progress').hidden=false;
   try{
-   const [{startViewer},{setupNavigation},{setupExperience}]=await Promise.all([import('./viewer.js'),import('./city-navigation.js'),import('./city-experience.js')]);
+   const [{startViewer},{setupNavigation},{setupExperience}]=await Promise.all([import('./viewer.js?v=20261115.2'),import('./city-navigation.js?v=20261115.2'),import('./city-experience.js?v=20261115.2')]);
    const api=await startViewer({onProgress:p=>{if(p!==null){const progress=$('#model-progress');progress.max=100;progress.value=p;$('#model-status').textContent=p<100?`Downloading the city: ${Math.round(p)}%`:'Preparing the 3D scene…'}},notify});
    const navigation=await setupNavigation(api,{notify});
    const experience=setupExperience(api,{notify,onRestore:()=>navigation.stopTour(),getNeighborhood:()=>navigation.getState().neighborhood,restoreNeighborhood:id=>id?navigation.selectNeighborhood(id,{fly:false,announce:false}):navigation.clearNeighborhood()});

@@ -3,7 +3,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
-import { createCityEnvironment } from './city-environment.js';
+import { createCityEnvironment } from './city-environment.js?v=20261115.2';
 
 const presets={
  peninsula:{fov:42,position:[8.5,11,-11.5],target:[-3.7,.01,2.5]},
