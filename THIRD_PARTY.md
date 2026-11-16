@@ -10,3 +10,7 @@
 - Render lighting: [Kloofendal 48d Partly Cloudy (Pure Sky)](https://polyhaven.com/a/kloofendal_48d_partly_cloudy_puresky), Greg Zaal, sky edits by Jarod Guest; [Industrial Sunset 02 (Pure Sky)](https://polyhaven.com/a/industrial_sunset_02_puresky), Poly Haven. Both distributed under CC0.
 
 The seven city images are renders produced from the project's Blender scene. The web model and image gallery do not use third-party reference photographs as substitute city renders.
+
+The four on-demand neighborhood datasets reuse DataSF footprints and public terrain elevations. They restore 1,180 low-rise building masses in the Mission District and Pacific Heights. Those two views also use native-resolution crops of the same public-domain NAIP aerial mosaic; architectural window and cornice details are interpretations. The neighborhood asset README and manifest document their coverage and source metadata. Landmark and neighborhood descriptions link to primary institutional, architectural, park or official visitor sources in the viewer.
+
+The browser's 60-second tour, continuous virtual-day lighting, moving water, two ferries, coastal haze, exact-view sharing and PNG postcards are project-authored features. Optional harbor ambience is synthesized in the browser from original oscillators and noise; it contains no external audio recordings. Browser lighting is artistic and does not model a date-specific physical solar position. These additions do not modify the full Blender release or its seven rendered images.

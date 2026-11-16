@@ -1,0 +1,42 @@
+{
+  "north-beach": {
+    "buildings": 817,
+    "newMasses": 0,
+    "center": [
+      -0.39816,
+      0.024451,
+      -1.00846
+    ],
+    "bytes": 445502
+  },
+  "chinatown": {
+    "buildings": 593,
+    "newMasses": 0,
+    "center": [
+      -0.14325,
+      0.032617,
+      -0.362804
+    ],
+    "bytes": 236098
+  },
+  "mission": {
+    "buildings": 715,
+    "newMasses": 715,
+    "center": [
+      -1.19805,
+      0.014208,
+      3.55566
+    ],
+    "bytes": 381284
+  },
+  "pacific-heights": {
+    "buildings": 467,
+    "newMasses": 465,
+    "center": [
+      -2.49897,
+      0.072135,
+      -0.073372
+    ],
+    "bytes": 279655
+  }
+}

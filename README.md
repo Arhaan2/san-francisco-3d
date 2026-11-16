@@ -6,6 +6,17 @@ A geographic reconstruction of San Francisco, built in Blender and presented as 
 
 The gallery shows seven renders from the full Blender scene, including a sunset waterfront view. Switch the opening image between sunset, daylight and blue hour, or open any gallery image at full resolution. The interactive model is a lighter edition designed for browser exploration; it omits some distant geometry and fine street detail. The full Blender scene and source generators are available in [Releases](https://github.com/Arhaan2/san-francisco-3d/releases).
 
+## Explore the live city
+
+- Take a 60-second cinematic tour, with pause, resume and stop controls.
+- Adjust the lighting continuously across a virtual 24-hour day, from daylight to sunset and illuminated night.
+- Select eight landmarks or visit North Beach, Chinatown, the Mission District and Pacific Heights. Neighborhood detail loads on demand, restoring 1,180 additional low-rise buildings across the Mission and Pacific Heights.
+- Watch two ferries cross moving water beneath coastal haze. Movement can be switched off, and reduced-motion preferences are respected.
+- Share the current neighborhood, camera angle and time of day in one link, or save a PNG postcard of the view.
+- Turn on optional synthesized harbor ambience. Sound remains off until explicitly enabled.
+
+The browser additions leave the full Blender release and its seven finished renders unchanged. Browser lighting is an artistic interpretation of a virtual day, rather than a physical solar simulation for a particular date.
+
 ## Run locally
 
 Serve `dist` with any static HTTP server, for example:

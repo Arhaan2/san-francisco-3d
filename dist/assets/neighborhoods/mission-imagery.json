@@ -1,0 +1,20 @@
+{
+  "url": "mission-aerial.webp",
+  "boundsXZ": [
+    -1.800165,
+    2.954532,
+    -0.595935,
+    4.156788
+  ],
+  "pixels": [
+    548,
+    432
+  ],
+  "sourcePixels": [
+    8000,
+    7200
+  ],
+  "source": "https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPImagery/ImageServer",
+  "attribution": "USGS / USDA NAIP, public domain; native crop from existing 8K city mosaic.",
+  "featherFraction": 0.12
+}

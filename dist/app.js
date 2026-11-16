@@ -10,7 +10,8 @@ const views=[
 ];
 const $=s=>document.querySelector(s);
 let toastTimer;
-function notify(message){const t=$('#toast');clearTimeout(toastTimer);t.textContent=message;t.hidden=false;toastTimer=setTimeout(()=>t.hidden=true,4500)}
+function notify(message){const t=$('#toast'),host=document.fullscreenElement||document.body;if(t.parentNode!==host)host.appendChild(t);clearTimeout(toastTimer);t.textContent=message;t.hidden=false;toastTimer=setTimeout(()=>t.hidden=true,4500)}
+document.addEventListener('fullscreenchange',()=>{const t=$('#toast'),host=document.fullscreenElement||document.body;if(t.parentNode!==host)host.appendChild(t)});
 $('#share').addEventListener('click',async()=>{try{await navigator.clipboard.writeText(location.href.split('#')[0]);notify('Link copied. Send San Francisco to someone.')}catch{notify('Copy the page address from your browser to share this city.')}});
 const dialog=$('#lightbox');let currentView=0,lastFocus;
 function showView(index){currentView=(index+views.length)%views.length;const v=views[currentView];$('#lightbox-image').src=`assets/${v.file}.jpg`;$('#lightbox-image').alt=v.alt;$('#lightbox-title').textContent=v.title;$('#full-image').href=`assets/${v.file}.jpg`;}
@@ -29,5 +30,35 @@ document.querySelectorAll('[data-light]').forEach(button=>button.addEventListene
  }catch{if(request===heroRequest)notify('This view could not load. Please try again.');}
 }));
 
-let modelLoading=false;
-$('#load-model').addEventListener('click',async()=>{if(modelLoading)return;modelLoading=true;const button=$('#load-model');button.disabled=true;button.textContent='Loading the city…';$('#model-status').textContent='Downloading the 23 MB browser model.';$('#model-progress').hidden=false;try{const {startViewer}=await import('./viewer.js');await startViewer({onProgress:p=>{const progress=$('#model-progress');if(p!==null){progress.max=100;progress.value=p;$('#model-status').textContent=p<100?`Downloading the city: ${Math.round(p)}%`:'Preparing the 3D scene…'}},notify});$('#viewer-poster').hidden=true;$('#viewer-toolbar').hidden=false;notify('City loaded. Drag to orbit, or choose a camera view.')}catch(error){console.error('3D viewer:',error);$('#viewer-poster').hidden=true;$('#viewer-failure').hidden=false;notify('The render gallery is ready even when 3D is unavailable.')}});
+let cityPromise;
+function loadCity(){
+ if(cityPromise)return cityPromise;
+ cityPromise=(async()=>{
+  const button=$('#load-model');button.disabled=true;button.textContent='Loading the city…';
+  $('#model-status').textContent='Downloading the 23 MB browser model.';$('#model-progress').hidden=false;
+  try{
+   const [{startViewer},{setupNavigation},{setupExperience}]=await Promise.all([import('./viewer.js'),import('./city-navigation.js'),import('./city-experience.js')]);
+   const api=await startViewer({onProgress:p=>{if(p!==null){const progress=$('#model-progress');progress.max=100;progress.value=p;$('#model-status').textContent=p<100?`Downloading the city: ${Math.round(p)}%`:'Preparing the 3D scene…'}},notify});
+   const navigation=await setupNavigation(api,{notify});
+   const experience=setupExperience(api,{notify,onRestore:()=>navigation.stopTour(),getNeighborhood:()=>navigation.getState().neighborhood,restoreNeighborhood:id=>id?navigation.selectNeighborhood(id,{fly:false,announce:false}):navigation.clearNeighborhood()});
+   $('#viewer-poster').hidden=true;$('#viewer-toolbar').hidden=false;$('#experience-controls').hidden=false;
+   $('#time-of-day').addEventListener('input',()=>navigation.stopTour());
+   document.querySelectorAll('[data-camera]').forEach(button=>button.addEventListener('click',()=>navigation.stopTour()));
+   if(!location.hash.startsWith('#view='))notify('City loaded. Take the tour, choose a place, or explore freely.');
+   return {api,navigation,experience};
+  }catch(error){
+   console.error('3D viewer:',error);$('#viewer-poster').hidden=true;$('#viewer-toolbar').hidden=true;$('#experience-controls').hidden=true;$('#viewer-failure').hidden=false;
+   notify('The render gallery is available if this device cannot open the 3D city.');
+   return null;
+  }
+ })();
+ return cityPromise;
+}
+$('#load-model').addEventListener('click',()=>loadCity());
+$('#tour-entry').addEventListener('click',async()=>{
+ $('#viewer').scrollIntoView({behavior:reduced.matches?'auto':'smooth',block:'center'});
+ const city=await loadCity();if(city)city.navigation.startTour();
+});
+if(location.hash.startsWith('#view=')&&location.hash.length<240){
+ $('#viewer').scrollIntoView({behavior:'auto',block:'center'});loadCity();
+}

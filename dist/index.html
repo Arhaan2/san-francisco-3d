@@ -19,7 +19,7 @@
 <header class="site-header"><a class="wordmark" href="#main" aria-label="San Francisco home">Arhaan × Codex</a><nav aria-label="Main navigation"><a href="#views">Gallery</a><a href="#explore">Explore in 3D</a><a href="#about">About</a><button class="plain" id="share">Copy link</button></nav></header>
 <main id="main">
 <section class="hero" aria-labelledby="title">
-<div class="hero-heading"><h1 id="title">San Francisco</h1><div class="hero-intro"><p>A favorite city, reconstructed in three dimensions.<br> Its architecture, hills and changing light.</p><a class="button" href="#explore">Explore the city <span aria-hidden="true">↗</span></a></div></div>
+<div class="hero-heading"><h1 id="title">San Francisco</h1><div class="hero-intro"><p>A favorite city, reconstructed in three dimensions.<br> Its architecture, hills and changing light.</p><div class="hero-actions"><a class="button" href="#explore">Explore the city <span aria-hidden="true">↗</span></a><button class="plain tour-entry" id="tour-entry" type="button">Take a cinematic tour</button></div></div></div>
 <figure class="hero-figure"><a class="hero-image image-link" id="hero-link" href="assets/sunset.jpg" data-view="6" aria-label="Open the sunset render full screen"><picture><source id="hero-source" type="image/webp" srcset="assets/sunset-medium.webp 1200w, assets/sunset.webp 2400w" sizes="100vw"><img id="hero-render" src="assets/sunset.jpg" width="3200" height="2000" alt="The San Francisco skyline and bay in warm sunset light" fetchpriority="high"></picture></a><figcaption class="hero-caption"><span id="hero-caption-text" aria-live="polite">Sunset over the bay</span><div class="light-select" role="group" aria-label="Choose the light"><button type="button" data-light="6" aria-pressed="true">Sunset</button><button type="button" data-light="1" aria-pressed="false">Daylight</button><button type="button" data-light="4" aria-pressed="false">Blue hour</button></div><a href="assets/sunset.jpg" id="hero-full-view" data-view="6">View full screen</a></figcaption></figure>
 </section>
 <section id="views" class="views section" aria-labelledby="views-title">
@@ -36,14 +36,55 @@
 </div>
 </section>
 <section id="explore" class="explore section" aria-labelledby="explore-title">
-<div class="section-heading"><h2 id="explore-title" data-reveal>Find your own perspective</h2><p data-reveal>Turn the city in your hands. Explore a lighter version of the scene, right in your browser.</p></div>
+<div class="section-heading"><h2 id="explore-title" data-reveal>Find your own perspective</h2><p data-reveal>Follow a cinematic tour, find a favorite neighborhood, or watch the light change in the live 3D city.</p></div>
 <div class="viewer" id="viewer" data-ui>
 <div id="canvas-host" class="canvas-host"></div>
 <div id="viewer-poster" class="viewer-poster"><img src="assets/aerial-medium.webp" alt="Aerial view of San Francisco, the Golden Gate and the peninsula" width="1200" height="750" loading="lazy"><div class="viewer-start"><button class="button light" id="load-model">Load the 3D city</button><p id="model-status" role="status" aria-live="polite">Loads only when you choose. Best on a recent device.</p><progress id="model-progress" aria-label="Loading 3D city" hidden></progress></div></div>
 <div id="viewer-toolbar" class="viewer-toolbar" hidden><div class="preset-group" role="group" aria-label="Camera views"><button data-camera="peninsula" class="active" aria-pressed="true">City</button><button data-camera="waterfront" aria-pressed="false">Waterfront</button><button data-camera="skyline" aria-pressed="false">Skyline</button><button data-camera="bridge" aria-pressed="false">Golden Gate</button></div><button id="fullscreen" aria-label="Expand 3D viewer">Full screen</button></div>
+<div id="experience-controls" class="experience-controls" hidden>
+  <div class="experience-bar">
+    <div class="tour-block">
+      <p id="tour-status" class="tour-status" role="status" aria-live="polite" aria-atomic="true"></p>
+      <div class="tour-controls" role="group" aria-label="Cinematic tour">
+        <button id="start-tour" type="button">Start tour</button>
+        <button id="pause-tour" type="button" hidden>Pause</button>
+        <button id="stop-tour" type="button" hidden>Stop</button>
+      </div>
+    </div>
+    <details id="explore-controls" class="explore-controls">
+      <summary>Explore controls <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="m4 10 4-4 4 4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></summary>
+      <div class="experience-panel">
+        <div class="time-control">
+          <div class="control-label"><label for="time-of-day">Time of day</label><output id="time-label" for="time-of-day" aria-live="off">5:30 PM</output></div>
+          <input id="time-of-day" type="range" min="0" max="24" step="0.05" value="17.5" aria-describedby="time-help">
+          <p id="time-help" class="control-note">Changes the light in this 3D view.</p>
+        </div>
+        <div class="place-controls">
+          <label for="landmark-select">Landmark</label>
+          <select id="landmark-select"><option value="">Choose a landmark</option></select>
+          <label for="neighborhood-select">Neighborhood</label>
+          <select id="neighborhood-select"><option value="">Choose a neighborhood</option></select>
+        </div>
+        <div class="atmosphere-controls">
+          <label class="motion-control" for="motion-toggle"><input id="motion-toggle" type="checkbox" checked><span>Moving water &amp; ferries</span></label>
+          <button id="ambience-toggle" type="button" aria-pressed="false">Ambience off</button>
+        </div>
+        <div class="view-actions">
+          <button id="share-view" type="button">Share this view</button>
+          <button id="export-postcard" type="button">Save a postcard</button>
+        </div>
+      </div>
+    </details>
+  </div>
+  <section id="place-detail" class="place-detail" aria-labelledby="place-title" hidden>
+    <div class="place-heading"><h3 id="place-title"></h3><button id="close-place" type="button" aria-label="Close place details">Close</button></div>
+    <p id="place-description"></p>
+    <a id="place-source" target="_blank" rel="noopener noreferrer">Read more about this place</a>
+  </section>
+</div>
 <div class="viewer-failure" id="viewer-failure" hidden><h3>Keep exploring the views</h3><p>This device couldn’t open the 3D scene. The complete render gallery is still available.</p><a href="#views" class="button light">See the renders</a></div>
 </div>
-<div class="viewer-notes"><p>Drag to orbit. Scroll or pinch to zoom. Right-drag or two fingers to pan. Arrow keys pan when the view is focused.</p><p>The browser model simplifies materials and small details. The renders show the complete cinematic scene.</p></div>
+<div class="viewer-notes"><p>Drag to orbit. Scroll or pinch to zoom. Right-drag or two fingers to pan. Arrow keys pan when the view is focused. Select a landmark to learn more.</p><p>The live city is a lighter interpretation of the Blender scene. Its time and movement controls apply here; the gallery above contains finished renders.</p></div>
 </section>
 <section id="about" class="about section" aria-labelledby="about-title"><div><h2 id="about-title" data-reveal>Built from the city</h2><dl class="facts" data-reveal><div><dt>Building footprint records</dt><dd>177,023</dd></div><div><dt>Vertices in the Blender scene</dt><dd>12.6 million</dd></div><div><dt>Rendered views</dt><dd>7 at 3200 × 2000</dd></div></dl></div><div class="about-copy"><p class="lead" data-reveal>Real geography, carefully interpreted.</p><p data-reveal>Historic building footprints, elevation data and aerial imagery establish the geography. Landmarks, façades, vegetation and street details combine measured inputs with modeled interpretation.</p><p data-reveal>Salesforce Tower, the Transamerica Pyramid, the Ferry Building and the Golden Gate were rebuilt with finer architectural detail. The scene includes the elevated Salesforce Park, ferries, rooftop equipment and street life.</p><p class="secondary" data-reveal>This is an artistic reconstruction. Smaller façades and street details are approximate, and the source datasets come from different dates.</p><details><summary>Data and image credits</summary><p>Building footprints, streets and parks: <a href="https://data.sf.gov/Geographic-Locations-and-Boundaries/Building-Footprints/ynuv-fyni">DataSF</a>. Terrain: <a href="https://registry.opendata.aws/terrain-tiles/">Mapzen / AWS Terrain Tiles</a>. Ground and roof imagery: public-domain <a href="https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPImagery/ImageServer">USGS / USDA NAIP</a>.</p><p>Skies: Poly Haven’s <a href="https://polyhaven.com/a/kloofendal_48d_partly_cloudy_puresky">Kloofendal 48d</a> by Greg Zaal, sky edits by Jarod Guest, and <a href="https://polyhaven.com/a/industrial_sunset_02_puresky">Industrial Sunset 02</a>, under CC0. All displayed city views were rendered from this Blender scene. <a href="https://github.com/Arhaan2/san-francisco-3d">Source and documentation</a>.</p></details></div></section>
 <section class="download section" aria-labelledby="download-title"><h2 id="download-title" data-reveal>Take the city with you</h2><div data-reveal><p>The complete Blender scene includes its textures.<br>Explore it, edit it, and find your own view.</p><a class="button" href="https://github.com/Arhaan2/san-francisco-3d/releases/download/v1.0/San_Francisco_Cinematic.blend">Download Blender scene <span class="file-size">299 MB</span></a><a class="source-link" href="https://github.com/Arhaan2/san-francisco-3d/releases/download/v1.0/San_Francisco_Cinematic_Renders.zip">Download all seven full-resolution renders</a><a class="source-link" href="https://github.com/Arhaan2/san-francisco-3d/releases/download/v1.0/San_Francisco_Cinematic_Source.zip">Download generators and source data</a></div></section>
