@@ -52,6 +52,7 @@
 .place-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
 .place-heading h3{font-size:1.65rem;line-height:1.15;padding-top:8px;text-wrap:pretty}
 .place-heading #close-place{font-size:.875rem;margin-right:-10px;padding:10px;min-width:44px;background:none}
+.experience-controls:has(.explore-controls[open]) .place-detail{visibility:hidden}
 .place-detail>p{margin:14px 0;color:var(--muted);font-size:.95rem;line-height:1.5}
 .place-detail>a{display:inline-flex;align-items:center;min-height:44px;font-size:.9rem}
 @media(max-width:700px){
@@ -67,7 +68,6 @@
   .experience-panel{width:100%;padding:18px;max-height:calc(100% - 54px)}
   .experience-controls select{font-size:1rem}
   .place-detail{width:100%;padding:16px 18px;max-height:calc(100% - 58px)}
-  .experience-controls:has(.explore-controls[open]) .place-detail{visibility:hidden}
   .place-heading h3{font-size:1.5rem}
 }
 @media(max-width:480px){.hero-actions{margin-top:22px}}
