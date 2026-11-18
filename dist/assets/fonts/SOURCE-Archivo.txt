@@ -1,0 +1,29 @@
+Archivo — official Google Fonts distribution
+
+Copyright 2020 The Archivo Project Authors (https://github.com/Omnibus-Type/Archivo)
+License: SIL Open Font License 1.1; see OFL-Archivo.txt.
+
+Official source family:
+https://github.com/google/fonts/tree/main/ofl/archivo
+
+Original upstream variable source font:
+https://raw.githubusercontent.com/google/fonts/main/ofl/archivo/Archivo%5Bwdth%2Cwght%5D.ttf
+
+License source:
+https://raw.githubusercontent.com/google/fonts/main/ofl/archivo/OFL.txt
+
+Optimized webfont declarations (weights 100–900, normal width):
+https://fonts.googleapis.com/css2?family=Archivo:wght@100..900&display=swap
+
+Archivo-Latin-Variable.woff2:
+https://fonts.gstatic.com/s/archivo/v25/k3kPo8UDI-1M0wlSV9XAw6lQkqWY8Q82sLydOxKsv4Rn.woff2
+
+Archivo-LatinExt-Variable.woff2:
+https://fonts.gstatic.com/s/archivo/v25/k3kPo8UDI-1M0wlSV9XAw6lQkqWY8Q82sLyTOxKsv4RnUPU.woff2
+
+Archivo-Vietnamese-Variable.woff2:
+https://fonts.gstatic.com/s/archivo/v25/k3kPo8UDI-1M0wlSV9XAw6lQkqWY8Q82sLySOxKsv4RnUPU.woff2
+
+The WOFF2 files are supplied directly by Google Fonts without local modification.
+fonts.css retains Google's Unicode ranges so browsers download only needed subsets.
+The complete TTF remains available at the upstream source URL; the site uses only WOFF2.

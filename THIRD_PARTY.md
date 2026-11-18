@@ -3,6 +3,7 @@
 - Three.js 0.180.0 and its included addons: MIT, license in `dist/vendor/three/LICENSE.txt`.
 - Google Draco geometry decoder: Apache License 2.0, license in `dist/vendor/three/draco/LICENSE.txt`.
 - Barlow and Barlow Condensed: SIL Open Font License, license in `dist/assets/fonts/OFL.txt`.
+- Archivo variable: [Omnibus-Type / Google Fonts](https://github.com/google/fonts/tree/main/ofl/archivo), SIL Open Font License 1.1; license in `dist/assets/fonts/OFL-Archivo.txt`, source provenance in `SOURCE-Archivo.txt`. Self-hosted WOFF2 files provide the current interface and postcard typography.
 - STIX Two Text: SIL Open Font License, license in `dist/assets/fonts/OFL-STIXTwoText.txt`.
 - City and County of San Francisco building footprints, street and park datasets: [DataSF](https://data.sf.gov/Geographic-Locations-and-Boundaries/Building-Footprints/ynuv-fyni). Full dataset citations are included in the source release.
 - Terrain: [Mapzen / AWS Terrain Tiles](https://registry.opendata.aws/terrain-tiles/).

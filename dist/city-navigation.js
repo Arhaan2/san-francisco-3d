@@ -362,6 +362,8 @@ export function setupNavigation(api, { notify = () => {} } = {}) {
   const say = message => { try { notify(message); } catch { /* Optional host notification. */ } };
   const phaseName = placeId => placeId === 'golden-gate' ? 'Golden Gate' : placeId === 'ferry-building' ? 'Waterfront' : 'Downtown';
   function updateTourUI(message) {
+    const viewer = el('viewer');
+    if (viewer) viewer.dataset.tourState = status;
     if (ui.start) { ui.start.textContent = status === 'paused' ? 'Resume tour' : status === 'complete' ? 'Replay tour' : 'Start 60-second tour'; ui.start.disabled = status === 'running'; }
     if (ui.pause) { ui.pause.hidden = status !== 'running'; ui.pause.disabled = status !== 'running'; }
     if (ui.stop) { ui.stop.hidden = status === 'idle' || status === 'complete'; ui.stop.disabled = status === 'idle' || status === 'complete'; }
@@ -413,6 +415,7 @@ export function setupNavigation(api, { notify = () => {} } = {}) {
     });
   };
   function showPlace(place, trigger) {
+    const moveFocus = (trigger === ui.landmarks || trigger === ui.neighborhoods) && document.activeElement === trigger;
     selectedPlace = place.id;
     if (trigger) detailTrigger = trigger;
     if (ui.title) ui.title.textContent = place.name;
@@ -420,6 +423,11 @@ export function setupNavigation(api, { notify = () => {} } = {}) {
     if (ui.source) { ui.source.href = place.source; ui.source.textContent = place.sourceLabel; ui.source.target = '_blank'; ui.source.rel = 'noopener noreferrer'; }
     if (ui.detail) ui.detail.hidden = false;
     if (ui.explore) ui.explore.open = false;
+    if (moveFocus) {
+      const focusTarget = ui.title || ui.close;
+      if (focusTarget === ui.title) focusTarget.setAttribute('tabindex', '-1');
+      focusTarget?.focus({ preventScroll: true });
+    }
   }
   function closePlace() {
     if (ui.detail) ui.detail.hidden = true;
@@ -533,7 +541,7 @@ export function setupNavigation(api, { notify = () => {} } = {}) {
     select.replaceChildren(new Option(prompt, ''), ...entries.map(place => new Option(place.name, place.id)));
   }
   listen(ui.landmarks, 'change', () => { if (ui.landmarks.value) void selectLandmark(ui.landmarks.value); });
-  listen(ui.neighborhoods, 'change', () => { if (ui.neighborhoods.value) void selectNeighborhood(ui.neighborhoods.value); else clearOverlay(); });
+  listen(ui.neighborhoods, 'change', () => { if (ui.neighborhoods.value) void selectNeighborhood(ui.neighborhoods.value); else clearNeighborhood(); });
   listen(ui.start, 'click', startTour); listen(ui.pause, 'click', () => pauseTour()); listen(ui.stop, 'click', stopTour);
   listen(ui.close, 'click', closePlace);
   listen(controls, 'start', manualInput);

@@ -127,11 +127,18 @@ export function setupExperience(api, { notify, onRestore = () => {}, getNeighbor
     label.textContent = clockLabel(hour); time.setAttribute('aria-valuetext', clockLabel(hour));
   }
   time.addEventListener('input', () => { api.setTimeOfDay(Number(time.value)); updateTime(); });
-  motion.checked = !reduced.matches;
-  api.setAnimationEnabled(motion.checked);
-  motion.addEventListener('change', () => api.setAnimationEnabled(motion.checked));
+  motion.checked = api.setAnimationEnabled(!reduced.matches);
+  motion.addEventListener('change', () => {
+    const requested = motion.checked;
+    motion.checked = api.setAnimationEnabled(requested);
+    if (requested && !motion.checked && reduced.matches) {
+      // Keep the stored preference consistent with the visible unchecked state.
+      api.setAnimationEnabled(false);
+      notify('Motion stays paused while Reduce Motion is enabled on your device.');
+    }
+  });
   reduced.addEventListener('change', event => {
-    if (event.matches) { motion.checked = false; api.setAnimationEnabled(false); }
+    motion.checked = event.matches ? api.setAnimationEnabled(false) : api.getAnimationEnabled();
   });
   sound.addEventListener('click', async () => {
     if (audioBusy) return; audioBusy = true;
@@ -167,7 +174,7 @@ export function setupExperience(api, { notify, onRestore = () => {}, getNeighbor
       paper.width = width + margin * 2; paper.height = height + margin * 2 + footer;
       const ctx = paper.getContext('2d');
       if (!ctx) throw new Error('Canvas unavailable');
-      ctx.fillStyle = '#f3f1eb'; ctx.fillRect(0, 0, paper.width, paper.height);
+      ctx.fillStyle = '#e9ece9'; ctx.fillRect(0, 0, paper.width, paper.height);
       try {
         api.renderer.setPixelRatio(1); api.renderer.setSize(width, height, false);
         api.camera.aspect = width / height; api.camera.updateProjectionMatrix();
@@ -178,9 +185,9 @@ export function setupExperience(api, { notify, onRestore = () => {}, getNeighbor
         api.renderer.setPixelRatio(ratio); api.renderer.setSize(size.x, size.y, false);
         api.camera.aspect = oldAspect; api.camera.updateProjectionMatrix(); api.renderer.render(api.scene, api.camera);
       }
-      ctx.fillStyle = '#282d29'; ctx.font = `${Math.max(34, Math.round(width * .027))}px "STIX Two Text", Georgia, serif`;
+      ctx.fillStyle = '#111619'; ctx.font = `${Math.max(34, Math.round(width * .027))}px Archivo, sans-serif`;
       ctx.textBaseline = 'middle'; ctx.fillText('San Francisco', margin, height + margin + footer * .5);
-      ctx.font = `${Math.max(20, Math.round(width * .012))}px Barlow, sans-serif`; ctx.textAlign = 'right';
+      ctx.font = `${Math.max(20, Math.round(width * .012))}px Archivo, sans-serif`; ctx.textAlign = 'right';
       ctx.fillText(`${clockLabel(api.getTimeOfDay())}  ·  Arhaan × Codex`, width + margin, height + margin + footer * .5);
       const blob = await new Promise(resolve => paper.toBlob(resolve, 'image/png'));
       if (!blob) throw new Error('Export unavailable');
@@ -213,5 +220,5 @@ export function setupExperience(api, { notify, onRestore = () => {}, getNeighbor
   updateTime(); restore();
   let lastHour = api.getTimeOfDay();
   api.addTick(() => { if (api.getTimeOfDay() !== lastHour) { lastHour = api.getTimeOfDay(); updateTime(); } });
-  return { restore, createViewURL: () => createViewURL(api, getNeighborhood()) };
+  return { restore, cancelRestore: () => { restoreVersion++; }, createViewURL: () => createViewURL(api, getNeighborhood()) };
 }

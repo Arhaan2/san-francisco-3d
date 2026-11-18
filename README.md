@@ -8,6 +8,9 @@ The gallery shows seven renders from the full Blender scene, including a sunset 
 
 ## Explore the live city
 
+The site opens with a full-screen city render. Switch its light, enter the live city immediately, or choose a starting place. The time slider stays visible while exploring; places and settings share a compact panel. The seven-render collection supports touch, mouse dragging, keyboard navigation and full-screen viewing.
+
+
 - Take a 60-second cinematic tour, with pause, resume and stop controls.
 - Adjust the lighting continuously across a virtual 24-hour day, from daylight to sunset and illuminated night.
 - Select eight landmarks or visit North Beach, Chinatown, the Mission District and Pacific Heights. Neighborhood detail loads on demand, restoring 1,180 additional low-rise buildings across the Mission and Pacific Heights.

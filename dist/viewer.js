@@ -3,7 +3,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
-import { createCityEnvironment } from './city-environment.js?v=20261115.2';
+import { createCityEnvironment } from './city-environment.js?v=20261118.1';
 
 const presets={
  peninsula:{fov:42,position:[8.5,11,-11.5],target:[-3.7,.01,2.5]},
@@ -60,7 +60,12 @@ export async function startViewer({onProgress=()=>{},notify=()=>{}}={}){
   flyTo(p.position,p.target,p.fov);
  }
  document.querySelectorAll('[data-camera]').forEach(button=>button.addEventListener('click',()=>selectPreset(button.dataset.camera)));
- controls.addEventListener('start',cancelFlight);
+ function beginManualCamera(){
+  cancelFlight();
+  document.querySelectorAll('[data-camera]').forEach(button=>{button.classList.remove('active');button.setAttribute('aria-pressed','false')});
+ }
+ controls.addEventListener('start',beginManualCamera);
+ renderer.domElement.addEventListener('keydown',event=>{if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(event.key))beginManualCamera()});
  controls.addEventListener('change',schedule);
  reduce.addEventListener('change',()=>{
   city.setAnimationEnabled(animationRequested&&!reduce.matches);
